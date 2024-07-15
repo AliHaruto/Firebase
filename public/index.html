@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script
+            src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+        <script
+            src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore-compat.js"></script>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Welcome to Firebase Hosting</title>
+
+        <!-- update the version number as needed -->
+        <script defer
+            src="/__/firebase/10.12.3/firebase-app-compat.js"></script>
+        <!-- include only the Firebase features as you need -->
+        <script defer
+            src="/__/firebase/10.12.3/firebase-auth-compat.js"></script>
+        <script
+            defer
+            src="/__/firebase/10.12.3/firebase-database-compat.js"></script>
+        <script
+            defer
+            src="/__/firebase/10.12.3/firebase-firestore-compat.js"></script>
+        <script
+            defer
+            src="/__/firebase/10.12.3/firebase-functions-compat.js"></script>
+        <script
+            defer
+            src="/__/firebase/10.12.3/firebase-messaging-compat.js"></script>
+        <script
+            defer
+            src="/__/firebase/10.12.3/firebase-storage-compat.js"></script>
+        <script
+            defer
+            src="/__/firebase/10.12.3/firebase-analytics-compat.js"></script>
+        <script
+            defer
+            src="/__/firebase/10.12.3/firebase-remote-config-compat.js"></script>
+        <script
+            defer
+            src="/__/firebase/10.12.3/firebase-performance-compat.js"></script>
+        <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+        <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+        <style media="screen">
+      body {
+        background: #eceff1;
+        color: rgba(0, 0, 0, 0.87);
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      #message {
+        background: white;
+        max-width: 360px;
+        margin: 100px auto 16px;
+        padding: 32px 24px;
+        border-radius: 3px;
+      }
+      #message h2 {
+        color: #ffa100;
+        font-weight: bold;
+        font-size: 16px;
+        margin: 0 0 8px;
+      }
+      #message h1 {
+        font-size: 22px;
+        font-weight: 300;
+        color: rgba(0, 0, 0, 0.6);
+        margin: 0 0 16px;
+      }
+      #message p {
+        line-height: 140%;
+        margin: 16px 0 24px;
+        font-size: 14px;
+      }
+      #message a {
+        display: block;
+        text-align: center;
+        background: #039be5;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: white;
+        padding: 16px;
+        border-radius: 4px;
+      }
+      #message,
+      #message a {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      }
+      #load {
+        color: rgba(0, 0, 0, 0.4);
+        text-align: center;
+        font-size: 13px;
+      }
+      @media (max-width: 600px) {
+        body,
+        #message {
+          margin-top: 0;
+          background: white;
+          box-shadow: none;
+        }
+        body {
+          border-top: 16px solid #ffa100;
+        }
+      }
+    </style>
+    </head>
+    <body>
+        <script type="module">
+      // Import the functions you need from the SDKs you need
+      import {
+        getAuth,
+        GoogleAuthProvider,
+        onAuthStateChanged,
+        signInWithPopup,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyBZo4bMFCdSyhQ7UN2Qr_XF6yuhe3-E93c",
+        authDomain: "integrative-pro.firebaseapp.com",
+        projectId: "integrative-pro",
+        storageBucket: "integrative-pro.appspot.com",
+        messagingSenderId: "659572501387",
+        appId: "1:659572501387:web:8b302df2b6b46e0bc81d8e",
+        measurementId: "G-3Z4MQK4NY4",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+      const provider = new GoogleAuthProvider();
+
+      const signInButton = document.getElementById("signInButton");
+      const signOutButton = document.getElementById("signOutButton");
+      const message = document.getElementById("message");
+
+      signOutButton.style.display = "none";
+      message.style.display = "none";
+
+      const userSignIn = async () => {
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            const user = result.user;
+            console.log(user);
+          })
+          .catch((err) => {
+            const errorCode = err.code;
+            const errorMessage = err.message;
+          });
+      };
+
+      const userSignOut = async () => {
+        signOut(auth)
+          .then(() => {
+            alert("You have been Logged Out!");
+          })
+          .catch((err) => {
+            const errorCode = err.code;
+            const errorMessage = err.message;
+          });
+      };
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          signOutButton.style.display = "block";
+          message.style.display = "block";
+        } else {
+          signOutButton.style.display = "none";
+          message.style.display = "none";
+        }
+      });
+
+      signInButton.addEventListener("click", userSignIn);
+      signOutButton.addEventListener("click", userSignOut);
+
+      
+
+      import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js"; 
+      const db = getFirestore(app);
+
+        const querySnapshot = await getDocs(collection(db, "people"));
+        querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+        console.log("First Name:", doc.data().first_name); // Assuming "name" is one of your fields
+        console.log("Middle Initial:", doc.data().middle_initial); // Assuming "age" is another field
+        console.log("Surname:", doc.data().surname);
+        console.log("Age:", doc.data().Age);
+        console.log("Email:", doc.data().email); // Assuming "city" is the third field
+        });
+    </script>
+        <button id="signInButton">Sign in</button>
+        <button id="signOutButton">Sign Out</button>
+        <p id="message">"You have been Signed In"</p>
+    </body>
+</html>
